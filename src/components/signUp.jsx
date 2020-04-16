@@ -16,7 +16,7 @@ import * as Yup from 'yup';
 import * as actionCreators from '../actionCreators';
 
 
-const SignUp = ({ user, signUp, signUpAction }) => {
+const SignUp = ({ signUp, signUpAction }) => {
   let alert;
   const defaultField = (name, type, placeholder, Type) => (
     <Field name={name}>

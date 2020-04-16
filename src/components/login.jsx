@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -8,7 +9,9 @@ import 'antd/dist/antd.css';
 import * as Yup from 'yup';
 import * as actionCreators from '../actionCreators';
 
-const Login = ({ logIn, email, password }) => {
+const Login = ({
+  user, logIn, logInAction, history,
+}) => {
   const defaultField = (name, type, placeholder, Type) => (
     <Field name={name}>
       {({
@@ -31,9 +34,6 @@ const Login = ({ logIn, email, password }) => {
   );
 
   const validSchema = Yup.object({
-    name: Yup.string()
-      .max(50, 'Must 50 characters or less')
-      .required('You must enter Name'),
     password: Yup.string()
       .matches(/^[a-zA-Z0-9]{0,}$/, 'Password have only latin letters and digits')
       .min(8, 'Password is too short - should be 8 chars minimum.')
@@ -46,24 +46,30 @@ const Login = ({ logIn, email, password }) => {
   return (
     <Formik
       initialValues={{
-        password: 'qweqwe1Q',
-        email: 'qweqw@mail.ru',
+        password: '',
+        email: '',
+        loged: false,
       }}
-      onSubmit={async (values, actions) => {
-        // logIn(email, password);
-        //     await axios
-        //       .post('http://localhost:3001/sign-up', values)
-        //       .then((res) => {
-        //         if (res.status === 200) {
-        //           alert('Вы успешно зарегестрированы');
-        //           console.log(res);
-        //         }
-        //       })
-        //       .catch((err) => {
-        //         actions.setFieldError('email', 'this email is already exist');
-        //         console.log(err.response);
-        //       });
-        // alert(JSON.stringify(values, null, 2));
+      onSubmit={(values, actions) => {
+        const { email, password } = values;
+        logIn(values)
+          .then((res) => {
+            if (res.status === 200) {
+              logInAction(email, password);
+              values.loged = true;
+            }
+            console.log(res);
+          })
+          .then(() => {
+            console.log(user.loged);
+            if (values.loged) {
+              history.push('/');
+            }
+          })
+          .catch((err) => {
+            alert('Incorrect email or password');
+            console.log(err);
+          });
         actions.setSubmitting(false);
       }}
       validationSchema={validSchema}
@@ -83,6 +89,7 @@ const Login = ({ logIn, email, password }) => {
               borderRadius: '15px',
             }}
           >
+            Пожалуйста, залогиньтесь!
             {defaultField('email', 'email', 'email', Input)}
             {defaultField('password', 'password', 'Input password', Input.Password)}
             <div />
@@ -95,9 +102,10 @@ const Login = ({ logIn, email, password }) => {
               Log in
             </Button>
             <Link
+              style={{ margin: '15px' }}
               to="/SignUp"
             >
-              <Button style={{ margin: '5px' }} type="dashed" htmlType="button">SignUp</Button>
+              SignUp
             </Link>
           </Form>
         );
@@ -107,8 +115,7 @@ const Login = ({ logIn, email, password }) => {
 };
 
 const mapStateToProps = (state) => ({
-  email: state.email,
-  password: state.password,
+  user: state,
 });
 
 export default connect(mapStateToProps, actionCreators)(Login);

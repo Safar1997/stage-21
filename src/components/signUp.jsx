@@ -16,7 +16,8 @@ import * as Yup from 'yup';
 import * as actionCreators from '../actionCreators';
 
 
-const SignUp = ({ signUp }) => {
+const SignUp = ({ user, signUp, signUpAction }) => {
+  let alert;
   const defaultField = (name, type, placeholder, Type) => (
     <Field name={name}>
       {({
@@ -39,7 +40,7 @@ const SignUp = ({ signUp }) => {
   );
 
   const validSchema = Yup.object({
-    name: Yup.string()
+    username: Yup.string()
       .max(50, 'Must 50 characters or less')
       .required('You must enter Name'),
     password: Yup.string()
@@ -57,11 +58,12 @@ const SignUp = ({ signUp }) => {
   return (
     <Formik
       initialValues={{
-        username: 'qwasdQWe',
-        password: 'qasdweQ1231',
-        email: 'aasdasda@mail.ru',
+        username: '',
+        password: '',
+        email: '',
       }}
       onSubmit={async (values, actions) => {
+        await signUpAction(values);
         await signUp(values);
         actions.setSubmitting(false);
       }}
@@ -82,6 +84,8 @@ const SignUp = ({ signUp }) => {
               borderRadius: '15px',
             }}
           >
+            {alert}
+            Пожалуйста, зарегестрируйтесь!
             {defaultField('username', 'input', 'Input Name', Input)}
             {defaultField('email', 'email', 'email', Input)}
             {defaultField('password', 'password', 'Input password', Input.Password)}
@@ -95,9 +99,10 @@ const SignUp = ({ signUp }) => {
               Sign Up
             </Button>
             <Link
+              style={{ margin: '15px' }}
               to="/Login"
             >
-              <Button style={{ margin: '5px' }} type="dashed" htmlType="button">Login</Button>
+              Login
             </Link>
           </Form>
         );

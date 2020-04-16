@@ -21,22 +21,20 @@ export const signUp = ({ username, email, password }) => (dispatch) => {
       if (res.status === 200) {
         dispatch(signUpAction({ username, email, password }));
       }
+      alert('Вы успешно зарегестрировались!');
+      console.log(res);
+      console.log(username, email, password);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      alert('This user is already exsist');
+      console.log(err.response);
+    });
 };
 
-export const logIn = ({ email, password }) => (dispatch) => {
-  axios
-    .post('https://conduit.productionready.io/api/users/login', {
-      user: {
-        email,
-        password,
-      },
-    })
-    .then((res) => {
-      if (res.status === 200) {
-        dispatch(logInAction(email, password));
-      }
-    })
-    .catch((err) => console.log(err));
-};
+export const logIn = ({ email, password }) => () => axios
+  .post('https://conduit.productionready.io/api/users/login', {
+    user: {
+      email,
+      password,
+    },
+  });

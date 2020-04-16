@@ -2,7 +2,7 @@
   "name": "stage_21",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://Safar1997.github.io/stage-21",
+  "homepage": "https://safar1997.github.io/stage-21",
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@csstools/normalize.css": "^10.1.0",
@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.1.2",
+    "gh-pages": "^2.2.0",
     "axios": "^0.19.2",
     "formik": "^2.1.4",
     "history": "^4.10.1",
@@ -63,7 +64,6 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "gh-pages": "^2.2.0",
     "husky": "^4.2.3",
     "lint": "^0.7.0"
   },

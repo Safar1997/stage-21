@@ -1,4 +1,4 @@
-const reducer = (state = {loged: false}, action) => {
+const reducer = (state = { loged: false }, action) => {
   switch (action.type) {
     case 'LOGIN':
       return { ...state, ...action.profile, loged: true };

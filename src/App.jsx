@@ -18,7 +18,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Route path="/" component={Main} exact history={customHistory} />
         <Route path="/Login" component={Login} history={customHistory} />
         <Route path="/SignUp" component={SignUp} />
